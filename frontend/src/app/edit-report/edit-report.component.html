@@ -1,0 +1,18 @@
+<app-map></app-map>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+  <fieldset class="d-grid gap-2 col-12">
+    <legend>REPORT AN INCIDENT</legend>
+    <input type="text" formControlName="title">
+    <input type="text" formControlName="info">
+    <input type="text" formControlName="imageUrl">
+    <select formControlName="location" (change)="onLocationChange($event)">
+      <option *ngFor="let p of locations" [ngValue]="p">{{ p.name }}</option>
+      <option>Add new location</option>
+    </select>
+    <select formControlName="status">
+        <option>resolved</option>
+        <option>unresolved</option>
+    </select>
+    <button class="btn btn-outline-primary">Submit</button>
+  </fieldset>
+</form>

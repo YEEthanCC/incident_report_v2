@@ -1,0 +1,8 @@
+<label>Click the location on the map below: </label>
+<div id="map" ></div>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" >
+    <fieldset class="d-grid gap-2 col-12">
+      <input type="text" placeholder="NAME OF LOCATION" formControlName="name">
+      <button  class="btn btn-outline-primary">Confirm</button>
+    </fieldset>
+</form>

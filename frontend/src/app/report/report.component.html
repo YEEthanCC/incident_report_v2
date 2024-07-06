@@ -1,0 +1,25 @@
+<div
+  class="container pt-3"
+  style="display: flex; justify-content: center; align-content: center"
+>
+  <div class="card" style="width: 18rem" *ngIf="report$">
+    <img [src]="report$!.image_url" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">{{ report$.title }}</h5>
+      <p class="card-text">
+        Title: {{ report$!.title }}<br />
+        Location: {{ report$.location.name }}<br />
+        Status: {{ report$!.status }}<br />
+        Extra info:<br />
+        {{ report$.info }}!.
+      </p>
+      <button
+        class="btn btn-outline-primary mr-2"
+        [routerLink]="'edit'"
+      >
+        EDIT
+      </button>
+      <button class="btn" (click)="onClick()">BACK</button>
+    </div>
+  </div>
+</div>
