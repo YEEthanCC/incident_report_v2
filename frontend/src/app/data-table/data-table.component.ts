@@ -1,10 +1,12 @@
 import { ReportService } from './../report.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { LocationService } from '../location.service';
 import { RouterModule } from '@angular/router';
 import { Report } from '../report'
+import * as L from 'leaflet';
+import { ReportComponent } from "../report/report.component";
 
 
 @Component({
@@ -12,13 +14,17 @@ import { Report } from '../report'
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.css', 
   standalone: true, 
-  imports: [ 
-    CommonModule, 
-    RouterModule
-   ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReportComponent
+]
 })
 export class DataTableComponent implements OnInit {
   reports$: Observable<any[]>
+  @Input() map:any
+  @Input() markers: L.Marker[] = []
+  marker: any
 
   constructor(private rs:ReportService, private ls: LocationService) {
     this.reports$ = of([])
@@ -34,6 +40,7 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.reports$ = this.rs.getReports()
+    console.log(this.map)
   }
 
   onStatusChange(id: any) {
@@ -60,4 +67,43 @@ export class DataTableComponent implements OnInit {
     })
   }
 
+  onReportClick(location: any) {
+    var zoom = 15
+    this.map.flyTo(location.coordinates, zoom)
+    const redIcon = new L.Icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+    if(this.marker) {
+      this.map.removeLayer(this.marker)
+      L.marker([this.marker.getLatLng().lat, this.marker.getLatLng().lng]).addTo(this.map) 
+    }
+    this.marker = this.markers.find(marker => marker.getLatLng().lat === location.coordinates[0] && marker.getLatLng().lng === location.coordinates[1])
+    this.map.removeLayer(this.marker) 
+    this.marker = L.marker(location.coordinates, {icon: redIcon}).addTo(this.map)
+  }
+
+  onSourceClick(id: any) {
+    console.log('onSourceClick() is called')
+    const modalElement = document.getElementById('reportModal');
+    if (modalElement) {
+      modalElement.style.display = 'block';
+    }
+    const reportElement = document.getElementById('clickedReport')
+    if (reportElement) {
+      reportElement.id = id
+    }
+  }
+
+  onModalClose() {
+    console.log('onModalClose() is called')
+    const modalElement = document.getElementById('reportModal')
+    if (modalElement) {
+      modalElement.style.display = 'none'
+    }
+  }
 }

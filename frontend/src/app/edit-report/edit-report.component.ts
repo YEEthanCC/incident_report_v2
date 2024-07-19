@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LocationService } from '../location.service';
 import { ReportService } from '../report.service';
 import { MapComponent } from '../map/map.component';
+
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-edit-report',
@@ -19,9 +21,12 @@ import { MapComponent } from '../map/map.component';
   templateUrl: './edit-report.component.html',
   styleUrls: ['./edit-report.component.css']
 })
-export class EditReportComponent {
+export class EditReportComponent implements OnInit{
   form: FormGroup;
+  private map: any 
+  marker: any
   locations: any[];
+  coordinates?: any 
 
   constructor(private activatedRoute: ActivatedRoute, private ls: LocationService, private rs: ReportService, private router: Router) {
     this.locations = [];
@@ -32,13 +37,23 @@ export class EditReportComponent {
       location: new FormControl(""), 
       status: new FormControl("")
     });
+    this.marker = {} 
   }
 
   ngOnInit(): void {
+    this.map = L.map('map').setView([49.2, -123], 11) 
+    // this.locations$ = this.ls.getLocations() 
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(this.map) 
+    this.map.on('click', (e:MouseEvent)=>this.onMapClick(e))
     this.ls.getLocations().subscribe((res: any[]) => {
       this.locations = res;
       this.rs.getReport(this.activatedRoute.snapshot.params['id']).subscribe((data: any) => {
         const selectedLocation = this.locations.find((p: any) => p.name === data.location.name);
+        this.coordinates = data.location.coordinates
+        this.marker = L.marker(this.coordinates).addTo(this.map) 
         this.form.setValue({
           title: data.title,
           info: data.info,
@@ -46,6 +61,7 @@ export class EditReportComponent {
           location: selectedLocation, 
           status: data.status
         });
+        console.log(this.form.controls['status'].value)
       });
     });
   }
@@ -68,4 +84,17 @@ export class EditReportComponent {
       this.router.navigate(['add-location']);
     }
   }
+  onClick() {
+    this.router.navigate(["add-report"]) 
+  }
+  onMapClick(e: any) {
+    if(this.coordinates) {
+      this.map.removeLayer(this.marker) 
+    }
+    this.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(this.map) 
+    this.coordinates = [e.latlng.lat, e.latlng.lng] 
+  }
+  
 }
+
+

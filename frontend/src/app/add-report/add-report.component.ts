@@ -1,7 +1,10 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { MapComponent } from '../map/map.component';
+
 import { CommonModule } from '@angular/common';
+
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { icon, Marker } from 'leaflet';
 const iconRetinaUrl = 'assets/marker-icon-2x.png'; 
@@ -24,6 +27,7 @@ import { ReportService } from '../report.service';
 import { Router } from '@angular/router';
 import { LocationService } from '../location.service';
 import { Observable, of, map } from 'rxjs';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 
 @Component({
@@ -32,19 +36,23 @@ import { Observable, of, map } from 'rxjs';
   styleUrl: './add-report.component.css', 
   standalone: true, 
   imports: [
-    MapComponent, 
-    FormsModule, 
-    ReactiveFormsModule, 
-    CommonModule
-  ]
+    MapComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    NavbarComponent
+]
 })
 export class AddReportComponent implements OnInit{
   form: FormGroup 
+  private map: any 
+  marker: any
   locations$: Observable<any[]> = of([]) 
   location: any
-  invalidNames: String[] = []  
+  invalidNames: String[] = []
+  coordinates?: L.LatLngExpression  
 
-  constructor(private ls: LocationService, private rs: ReportService, private router: Router) {
+  constructor(private ls: LocationService, private rs: ReportService, private router: Router, private http: HttpClient) {
     let formControls = {
       title: new FormControl('', [
         Validators.required, 
@@ -56,47 +64,109 @@ export class AddReportComponent implements OnInit{
       imageUrl: new FormControl('', [
         Validators.required, 
       ]), 
+      location: new FormControl('', [
+        
+      ]) 
     }
     this.form = new FormGroup(formControls) 
+    this.marker = {} 
   }
 
   ngOnInit(): void {
-    this.locations$ = this.ls.getLocations()
+    this.map = L.map('map').setView([49.2, -123], 11) 
+    this.locations$ = this.ls.getLocations() 
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(this.map) 
+    this.map.on('click', (e:MouseEvent)=>this.onMapClick(e))
+  }
+
+  onMapClick(e: any) {
+    if(this.coordinates) {
+      this.map.removeLayer(this.marker) 
+    }
+    this.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(this.map) 
+    this.coordinates = [e.latlng.lat, e.latlng.lng] 
   }
 
   invalidNameValidator = (control: FormControl) => {
-    console.log(this.invalidNames);
-    if (this.invalidNames.includes(control.value.trim())) {
-      return { name_error: "The name already exists" };
-    } else {
-      return null;
-    }
+    // console.log(this.invalidNames);
+    // if (this.invalidNames.includes(control.value.trim())) {
+    //   return { name_error: "The name already exists" };
+    // } else {
+    //   return null;
+    // }
   }
 
 
   onSubmit(newReport: any) {
-    
-    if (this.location) {
-      this.rs.createReport({
-        title: newReport.title,
-        status: "Unresolved", 
-        info: newReport.info, 
-        image_url: newReport.imageUrl, 
-        location: this.location
-      }).subscribe((res) => {
-        console.log(res)
-        this.router.navigate(["home"]);
-      });
+    if(newReport.location === 'Add new location') {
+      if (this.coordinates && Array.isArray(this.coordinates) && this.coordinates.length === 2) {
+        const lat = this.coordinates[0];
+        const lon = this.coordinates[1];
+        
+        if (typeof lat === 'number' && typeof lon === 'number') {
+          this.http.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`).subscribe((data: any) => {
+            newReport.location = {
+              name: data.display_name, 
+              coordinates: this.coordinates
+            }
+            if (this.coordinates) {
+              this.rs.createReport({
+                title: newReport.title,
+                status: "Unresolved", 
+                info: newReport.info, 
+                image_url: newReport.imageUrl, 
+                location: newReport.location
+              }).subscribe((res) => {
+                console.log(res)
+                this.ls.createLocation(newReport.location).subscribe(() => {
+                  this.router.navigate(["home"]);
+                })
+              });
+            } else {
+              // Handle the case where the selected location data is null
+              console.error('Selected location data is null');
+            }
+          });
+        } else {
+          console.error('Coordinates are not numbers:', this.coordinates);
+        }
+      } else {
+        console.error('Coordinates are not defined or do not contain the correct structure:', this.coordinates);
+      }
     } else {
-      // Handle the case where the selected location data is null
-      console.error('Selected location data is null');
+      if (this.coordinates) {
+        this.rs.createReport({
+          title: newReport.title,
+          status: "Unresolved", 
+          info: newReport.info, 
+          image_url: newReport.imageUrl, 
+          location: newReport.location
+        }).subscribe((res) => {
+          console.log(res)
+          this.router.navigate(["home"]);
+        });
+      } else {
+        // Handle the case where the selected location data is null
+        console.error('Selected location data is null');
+      }
     }
-  }
-
+}
   onLocationChange(e: any) {
     if(e.target.value === 'Add new location') {
-      this.router.navigate(['add-location'])
+      // this.router.navigate(['add-location']) 
+      return
+    } 
+    if(this.coordinates) {
+      this.map.removeLayer(this.marker) 
     }
-    console.log(this.location)
+    console.log(this.form.controls['location'].value)
+    this.marker = L.marker(this.form.controls['location'].value.coordinates).addTo(this.map) 
+    this.coordinates = this.form.controls['location'].value.coordinates
+  }
+  onClick() {
+    this.router.navigate(["add-report"]) 
   }
 }

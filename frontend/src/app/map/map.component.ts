@@ -1,3 +1,4 @@
+import { Location } from './../location';
 import { ReportService } from '../report.service';
 import { Observable, of } from 'rxjs';
 
@@ -23,6 +24,8 @@ const iconDefault = icon({
   tooltipAnchor: [16, -28], 
   shadowSize: [41, 41] 
 });
+
+
 Marker.prototype.options.icon = iconDefault;
 
 @Component({
@@ -32,7 +35,7 @@ Marker.prototype.options.icon = iconDefault;
   standalone: true
 })
 export class MapComponent implements OnInit{
-  private map: any 
+  map: any 
   reports$: Observable<any[]> 
   location$: Observable<any[]>
   markers: L.Marker[]
@@ -45,13 +48,21 @@ export class MapComponent implements OnInit{
   ngOnInit(): void {
     this.map = L.map('map').setView([49.2, -123], 11) 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
-
-    this.ls.getLocations().subscribe((locations: any[]) => {
-      locations.forEach((location: any) => {
-        console.log(location.coordinates)
-        this.markers = [L.marker(location.coordinates), ...this.markers]
-      });
+    this.rs.getReports().subscribe((reports: any[]) => {
+      reports.forEach((report: any) => {
+        if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1])) {
+          this.markers = [L.marker(report.location.coordinates), ...this.markers]
+        }
+      })
       this.markers.forEach(marker => marker.addTo(this.map));
     })
+
+    // this.ls.getLocations().subscribe((locations: any[]) => {
+    //   locations.forEach((location: any) => {
+    //     console.log(location.coordinates)
+    //     this.markers = [L.marker(location.coordinates), ...this.markers]
+    //   });
+    //   this.markers.forEach(marker => marker.addTo(this.map));
+    // })
   }
 }

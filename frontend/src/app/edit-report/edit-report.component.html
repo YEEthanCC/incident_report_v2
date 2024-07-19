@@ -1,18 +1,25 @@
-<app-map></app-map>
-<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-  <fieldset class="d-grid gap-2 col-12">
-    <legend>REPORT AN INCIDENT</legend>
-    <input type="text" formControlName="title">
-    <input type="text" formControlName="info">
-    <input type="text" formControlName="imageUrl">
-    <select formControlName="location" (change)="onLocationChange($event)">
-      <option *ngFor="let p of locations" [ngValue]="p">{{ p.name }}</option>
-      <option>Add new location</option>
-    </select>
-    <select formControlName="status">
-        <option>resolved</option>
-        <option>unresolved</option>
-    </select>
-    <button class="btn btn-outline-primary">Submit</button>
-  </fieldset>
-</form>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="nav-item" (click)="onClick()">
+    CREATE INCIDENT REPROT
+  </a>
+</nav>
+<div class="edit-report-container">
+  <div id="map" ></div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <fieldset class="d-grid gap-2 col-12">
+      <legend>EDIT AN INCIDENT</legend>
+      <input type="text" formControlName="title">
+      <input type="text" formControlName="info">
+      <input type="text" formControlName="imageUrl">
+      <select formControlName="location" (change)="onLocationChange($event)">
+        <option *ngFor="let p of locations" [ngValue]="p">{{ p.name }}</option>
+        <option>Add new location</option>
+      </select>
+      <select formControlName="status">
+          <option value='resolved'>resolved</option>
+          <option value='unresolved'>unresolved</option>
+      </select>
+      <button class="btn btn-outline-primary">Submit</button>
+    </fieldset>
+  </form>
+</div>

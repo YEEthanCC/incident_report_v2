@@ -1,49 +1,43 @@
-<app-map></app-map>
-<h2>REPORT AN INCIDENT</h2>
-<label for="location">Location</label>
-<select
-  class="form-control"
-  [(ngModel)]="location"
-  (change)="onLocationChange($event)"
-  *ngIf="locations$ | async as locations"
-  id="location"
->
-  <option disabled selected> -- select an option -- </option>
-  <option *ngFor="let p of locations$ | async" [ngValue]="p">{{ p.name }}</option>
-  <option>Add new location</option>
-</select>
-<div class="container-fluid mt-3">
+<app-navbar></app-navbar>
+<div class="add-report-container">
+  <div id="map" ></div>
   <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" style="max-width: 40%;">
     <div class="form-group">
-      <label>Title:</label>
       <input
-        type="text"
+        type="text" 
+        placeholder="Title"
         formControlName="title"
         class="form-control"
       />
     </div>
     <div class="form-group">
-      <label for="info">Info:</label>
-      <input
+      <textarea 
         type="text"
+        placeholder="body text (optional)"
         formControlName="info"
         class="form-control"
-        id="info"
-      />
+        id="info" 
+        rows="15"
+      ></textarea>
     </div>
     <div class="form-group">
-      <label for="image">Image:</label>
       <input
         type="text"
-        placeholder="LINK TO IMAGE"
+        placeholder="link to image"
         formControlName="imageUrl"
         class="form-control"
         id="image"
       />
     </div>
+    <div class="form-group">
+      <select formControlName="location" (change)="onLocationChange($event)">
+        <option value="" selected disabled hidden> -- select a location -- </option>
+        <option *ngFor="let p of locations$ | async" [ngValue]="p">{{ p.name }}</option>
+        <option>Add new location</option>
+      </select>
+    </div>
     <button
      class="btn btn-outline-primary"
      [disabled]="!form.valid">Submit</button>
   </form>
-
 </div>

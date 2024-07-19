@@ -10,7 +10,47 @@
     opacity: .5;
 }
 
-table {
+/* table {
     width: 100%;
     justify-content: center;
+} */
+
+.time-container {
+    width:fit-content
+}
+
+.btn-close {
+    float:right;
+}
+
+a {
+    float:right; 
+}
+
+.event-container {
+    border-bottom: solid rgb(240, 240, 240);
+    width: 100%;
+    padding: 1em;
+}
+
+.event-list {
+    height: 80vh;
+    width: 23.5vw;
+}
+
+.time-container {
+    font-size:smaller;
+}
+
+.title-container {
+    font-weight: bold;
+    font-size: large;
+}
+
+.image-container {
+    width: 100%;
+}
+
+img {
+    width: 100%;
 }

@@ -1,0 +1,23 @@
+.edit-report-container {
+    width: 100vw; 
+    height: 100vh;
+    display: flex;
+    flex-direction: row; 
+}
+
+form {
+    width: 25vw;
+    margin-left: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-right: 2em;
+}
+
+select {
+    width: 100%;
+}
+
+#map {
+    height: 100vh;
+    width: 75vw; 
+}
