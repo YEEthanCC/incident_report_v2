@@ -7,6 +7,7 @@ import { ReportService } from '../report.service';
 import { MapComponent } from '../map/map.component';
 
 import * as L from 'leaflet';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-edit-report',
@@ -16,7 +17,8 @@ import * as L from 'leaflet';
     CommonModule, 
     FormsModule, 
     ReactiveFormsModule, 
-    MapComponent
+    MapComponent, 
+    NavbarComponent
   ],
   templateUrl: './edit-report.component.html',
   styleUrls: ['./edit-report.component.css']
@@ -48,22 +50,40 @@ export class EditReportComponent implements OnInit{
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map) 
     this.map.on('click', (e:MouseEvent)=>this.onMapClick(e))
-    this.ls.getLocations().subscribe((res: any[]) => {
-      this.locations = res;
-      this.rs.getReport(this.activatedRoute.snapshot.params['id']).subscribe((data: any) => {
-        const selectedLocation = this.locations.find((p: any) => p.name === data.location.name);
-        this.coordinates = data.location.coordinates
-        this.marker = L.marker(this.coordinates).addTo(this.map) 
-        this.form.setValue({
-          title: data.title,
-          info: data.info,
-          imageUrl: data.image_url,
-          location: selectedLocation, 
-          status: data.status
-        });
-        console.log(this.form.controls['status'].value)
+    this.rs.getReports().subscribe((reports: any[]) => {
+      reports.forEach((report: any) => {
+        if(!this.locations.find((location: any) => location.coordinates[0] === report.location.coordinates[0] && location.coordiantes[1] === report.location.coordinates[1])) {
+          this.locations = [report.location, ...this.locations]
+        }        
       });
-    });
+      let report = reports.find((report: any) => report._id === this.activatedRoute.snapshot.params['id'])
+      const selectedLocation = this.locations.find((p: any) => p.name === report.location.name);
+      this.coordinates = report.location.coordinates
+      this.marker = L.marker(this.coordinates).addTo(this.map) 
+      this.form.setValue({
+        title: report.title,
+        info: report.info,
+        imageUrl: report.image_url,
+        location: selectedLocation, 
+        status: report.status
+      });
+    })
+    // this.ls.getLocations().subscribe((res: any[]) => {
+    //   this.locations = res;
+    //   this.rs.getReport(this.activatedRoute.snapshot.params['id']).subscribe((data: any) => {
+    //     const selectedLocation = this.locations.find((p: any) => p.name === data.location.name);
+    //     this.coordinates = data.location.coordinates
+    //     this.marker = L.marker(this.coordinates).addTo(this.map) 
+    //     this.form.setValue({
+    //       title: data.title,
+    //       info: data.info,
+    //       imageUrl: data.image_url,
+    //       location: selectedLocation, 
+    //       status: data.status
+    //     });
+    //     console.log(this.form.controls['status'].value)
+    //   });
+    // });
   }
 
   onSubmit(newReport: any) {

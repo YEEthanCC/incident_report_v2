@@ -47,10 +47,11 @@ export class AddReportComponent implements OnInit{
   form: FormGroup 
   private map: any 
   marker: any
-  locations$: Observable<any[]> = of([]) 
+  // locations$: Observable<any[]> = of([]) 
   location: any
   invalidNames: String[] = []
   coordinates?: L.LatLngExpression  
+  locations: any[] = []
 
   constructor(private ls: LocationService, private rs: ReportService, private router: Router, private http: HttpClient) {
     let formControls = {
@@ -74,7 +75,14 @@ export class AddReportComponent implements OnInit{
 
   ngOnInit(): void {
     this.map = L.map('map').setView([49.2, -123], 11) 
-    this.locations$ = this.ls.getLocations() 
+    // this.locations$ = this.ls.getLocations() 
+    this.rs.getReports().subscribe((reports: any[]) => {
+      reports.forEach((report: any) => {
+        if(!this.locations.find((location: any) => location.coordinates[0] === report.location.coordinates[0] && location.coordiantes[1] === report.location.coordinates[1])) {
+          this.locations = [report.location, ...this.locations]
+        }        
+      });
+    })
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -115,7 +123,7 @@ export class AddReportComponent implements OnInit{
             if (this.coordinates) {
               this.rs.createReport({
                 title: newReport.title,
-                status: "Unresolved", 
+                status: "unresolved", 
                 info: newReport.info, 
                 image_url: newReport.imageUrl, 
                 location: newReport.location

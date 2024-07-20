@@ -1,8 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="nav-item" (click)="onClick()">
-    CREATE INCIDENT REPROT
-  </a>
-</nav>
+<app-navbar></app-navbar>
 <div class="edit-report-container">
   <div id="map" ></div>
   <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
@@ -10,6 +6,11 @@
       <legend>EDIT AN INCIDENT</legend>
       <input type="text" formControlName="title">
       <input type="text" formControlName="info">
+      <textarea 
+      type="text"
+      formControlName="info"
+      rows="15"
+        ></textarea>
       <input type="text" formControlName="imageUrl">
       <select formControlName="location" (change)="onLocationChange($event)">
         <option *ngFor="let p of locations" [ngValue]="p">{{ p.name }}</option>

@@ -7,26 +7,34 @@
     </div>
     <div>
       <span class="title-container">{{ r.title }}</span>
-      <a (click)="onSourceClick(r._id)">Source</a>
+      <a (click)="openModal(r)">Source</a>
+       <!-- <app-report-modal [report]="r"></app-report-modal> -->
     </div>
     <div class="image-container">
       <img [src]="r.image_url" alt="Event Image" />
     </div>
     <div class="status-container" (click)="onStatusChange(r._id)">{{ r.status }}</div>
-
-    <a [routerLink]="'reports/' + r._id">MORE INFO</a>
+    <!-- <a [routerLink]="'reports/' + r._id">MORE INFO</a> -->
   </div>
 </div>
 
-<div class="modal text-center show" tabindex="-1" id="reportModal" >
+<div class="modal text-center show" tabindex="-1" id="reportModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">{{ clickedReport?.title }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onModalClose()"></button>
       </div>
       <div class="modal-body">
-        <!-- <app-report id="clickedReport" /> -->
+        <div class="modal-image-container">
+          <img [src]="clickedReport?.image_url" alt="Event Image" />
+          <p>{{clickedReport?.info}}</p>
+          <p>Address: {{ clickedReport?.location.name }}</p>
+          <p>Status: {{ clickedReport?.status }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" [routerLink]="'reports/' + clickedReport?._id + '/edit'">Edit report</button>
       </div>
     </div>
   </div>

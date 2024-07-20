@@ -32,7 +32,7 @@
     <div class="form-group">
       <select formControlName="location" (change)="onLocationChange($event)">
         <option value="" selected disabled hidden> -- select a location -- </option>
-        <option *ngFor="let p of locations$ | async" [ngValue]="p">{{ p.name }}</option>
+        <option *ngFor="let p of locations" [ngValue]="p">{{ p.name }}</option>
         <option>Add new location</option>
       </select>
     </div>

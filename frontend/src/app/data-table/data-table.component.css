@@ -54,3 +54,19 @@ a {
 img {
     width: 100%;
 }
+
+app-report-modal {
+    float: right;
+}
+
+.modal-image-container {
+    width: 100%;
+}
+
+/* p {
+    text-align: left;
+} */
+
+.modal-footer {
+    justify-content: center;
+}

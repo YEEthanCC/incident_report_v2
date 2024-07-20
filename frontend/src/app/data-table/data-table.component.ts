@@ -1,12 +1,14 @@
+import { ReportComponent } from './../report/report.component';
 import { ReportService } from './../report.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { LocationService } from '../location.service';
 import { RouterModule } from '@angular/router';
 import { Report } from '../report'
 import * as L from 'leaflet';
-import { ReportComponent } from "../report/report.component";
+
+import { ReportModalComponent } from "../report-modal/report-modal.component";
 
 
 @Component({
@@ -17,13 +19,17 @@ import { ReportComponent } from "../report/report.component";
   imports: [
     CommonModule,
     RouterModule,
-    ReportComponent
-]
+    ReportComponent,
+    ReportModalComponent
+  ]
 })
 export class DataTableComponent implements OnInit {
   reports$: Observable<any[]>
   @Input() map:any
-  @Input() markers: L.Marker[] = []
+  @Input() markers: L.Marker[] = [] 
+  // @ViewChild(ReportModalComponent)
+  // reportModalComponenet: ReportModalComponent
+  clickedReport: any
   marker: any
 
   constructor(private rs:ReportService, private ls: LocationService) {
@@ -34,8 +40,8 @@ export class DataTableComponent implements OnInit {
     console.log("onDelete function called")
     this.rs.deleteReport(id).subscribe((res) => {
       console.log(res)
+      this.reports$ = this.rs.getReports()
     })
-    this.reports$ = this.rs.getReports()
   }
 
   ngOnInit(): void {
@@ -46,12 +52,6 @@ export class DataTableComponent implements OnInit {
   onStatusChange(id: any) {
     let status: string
     this.rs.getReport(id).subscribe((data: any) => {
-      // report = new Report(data.title, data.status, data.info, data.image_url, data.location)
-      // if(report.status === 'unresolved') {
-      //   report.status = 'resolved'
-      // } else {
-      //   report.status = 'unresolved'
-      // }
       status = data.status 
       if(status === 'unresolved') {
         status = 'resolved'
@@ -87,15 +87,11 @@ export class DataTableComponent implements OnInit {
     this.marker = L.marker(location.coordinates, {icon: redIcon}).addTo(this.map)
   }
 
-  onSourceClick(id: any) {
-    console.log('onSourceClick() is called')
+  openModal(report: any) {
+    this.clickedReport = report
     const modalElement = document.getElementById('reportModal');
     if (modalElement) {
       modalElement.style.display = 'block';
-    }
-    const reportElement = document.getElementById('clickedReport')
-    if (reportElement) {
-      reportElement.id = id
     }
   }
 
