@@ -8,6 +8,7 @@ import { MapComponent } from '../map/map.component';
 
 import * as L from 'leaflet';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-report',
@@ -27,6 +28,7 @@ export class EditReportComponent implements OnInit{
   form: FormGroup;
   private map: any 
   marker: any
+  // location$: Observable<any> = of
   locations: any[];
   coordinates?: any 
 
