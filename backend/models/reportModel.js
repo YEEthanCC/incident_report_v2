@@ -25,6 +25,10 @@ const reportSchema = new Schema({
     location: {
         type: locationSchema, 
         required: true
+    }, 
+    user_id: {
+        type: String, 
+        required: true
     }
 }, { timestamps: true })
 

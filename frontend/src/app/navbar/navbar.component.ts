@@ -14,11 +14,4 @@ export class NavbarComponent {
   exampleModal: any
 
   constructor(private router: Router) {}
-  onClick() {
-    const modalElement = document.getElementById('withScrollExampleModal');
-    if (modalElement) {
-      modalElement.style.display = 'block';
-    }
-
-  }
 }

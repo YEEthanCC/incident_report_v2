@@ -8,6 +8,10 @@ import { RouterModule } from '@angular/router';
 import { Report } from '../report'
 import * as L from 'leaflet';
 
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+
 import { ReportModalComponent } from "../report-modal/report-modal.component";
 
 
@@ -20,7 +24,10 @@ import { ReportModalComponent } from "../report-modal/report-modal.component";
     CommonModule,
     RouterModule,
     ReportComponent,
-    ReportModalComponent
+    ReportModalComponent, 
+    MatButtonModule, 
+    MatMenuModule, 
+    MatIconModule
   ]
 })
 export class DataTableComponent implements OnInit {

@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+<div class="container pt-3">
+  <div class="card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+      <div class="form-group">
+          <input
+            type="text" 
+            placeholder="E-mail"
+            formControlName="email"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="text" 
+            placeholder="Password"
+            formControlName="password"
+            class="form-control"
+          />
+        </div>
+        <div *ngIf="error; else noError">
+          <div class="error-message">
+            {{error}}
+          </div>
+        </div>
+        <ng-template #noError>
+        <div class="error-message"></div>
+        </ng-template>
+        <button
+        class="btn btn-outline-primary"
+        [disabled]="!form.valid">Sign up</button>
+  </form>
+
+  </div>
+</div>

@@ -66,7 +66,7 @@ export class AddReportComponent implements OnInit{
         Validators.required, 
       ]), 
       location: new FormControl('', [
-        
+        Validators.required,
       ]) 
     }
     this.form = new FormGroup(formControls) 

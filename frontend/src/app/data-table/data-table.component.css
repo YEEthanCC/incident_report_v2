@@ -23,6 +23,8 @@
     float:right;
 }
 
+
+
 a {
     float:right; 
 }
@@ -34,7 +36,7 @@ a {
 }
 
 .event-list {
-    height: 80vh;
+    /* height: 90vh; */
     width: 23.5vw;
 }
 

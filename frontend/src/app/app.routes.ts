@@ -7,13 +7,18 @@ import { AddReportComponent } from './add-report/add-report.component';
 import { ReportComponent } from './report/report.component';
 import { AddLocationComponent } from './add-location/add-location.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
+import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
 
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent }, 
-  { path: 'home/reports/:id', component: ReportComponent}, 
-  { path: 'add-report', component: AddReportComponent},
-  { path: 'add-location', component: AddLocationComponent}, 
-  { path: 'home/reports/:id/edit', component: EditReportComponent}, 
+  { path: 'home/reports/:id', component: ReportComponent }, 
+  { path: 'add-report', component: AddReportComponent, canActivate: [AuthGuard] },
+  { path: 'add-location', component: AddLocationComponent }, 
+  { path: 'home/reports/:id/edit', component: EditReportComponent },
+  { path: 'signup', component: SignupComponent }, 
+  { path: 'login', component: LoginComponent }, 
   { path: '', redirectTo: 'home', pathMatch: 'full'}
 ];

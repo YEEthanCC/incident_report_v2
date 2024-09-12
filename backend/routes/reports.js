@@ -10,6 +10,8 @@ const {
 
 const Report = require('../models/reportModel')
 
+const verifyToken = require('../middlewares/auth')
+
 const router = express.Router()
 
 // GET all reports
@@ -20,10 +22,10 @@ router.get('/', getReports)
 router.get('/:id', getReport)
 
 // POST a new reports
-router.post('/', createReport)
+router.post('/', verifyToken, createReport)
 
 // DELETE a report
-router.delete('/:id', deleteReport)
+router.delete('/:id', verifyToken, deleteReport)
 
 // UPDATE a report
 router.patch('/:id', updateReport)

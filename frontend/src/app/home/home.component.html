@@ -1,16 +1,6 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="nav-item" (click)="onClick()">
-    CREATE INCIDENT REPROT
-  </a>
-</nav> -->
+
 <app-navbar></app-navbar>
 <div class="home-container">
   <app-map #mapComponent></app-map>
-  <!-- <div class="container-fluid">
-    <app-data-table class="dataTable"></app-data-table>
-    <button class="btn btn-outline-primary" (click)="onClick()">
-      CREATE INCIDENT REPROT
-    </button>
-  </div> -->
   <app-data-table class="dataTable" [map]="mapComponent.map" [markers]="mapComponent.markers"></app-data-table>
 </div>
