@@ -46,11 +46,12 @@ export class MapComponent implements OnInit{
   };
 
   ngOnInit(): void {
-    // console.log('ngonit called')
-    // if (this.map) {
-    //   console.log('map is already initialized')
-    //   return;
-    // }
+    console.log('ngonit called')
+    if (this.map) {
+      console.log('map is already initialized')
+
+      return;
+    }
     console.log('map does not exist, is initialized')
     this.map = L.map('map').setView([49.2, -123], 11) 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);

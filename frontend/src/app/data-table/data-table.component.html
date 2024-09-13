@@ -8,7 +8,7 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngIf="r.authorization; else notAuthorizedEdit" [routerLink]="'reports/' + r._id + '/edit'">
+        <button mat-menu-item *ngIf="r.authorization; else notAuthorizedEdit" (click)="onEditClicked(r._id)">
           <mat-icon>edit</mat-icon>
           <span>Edit</span>
         </button>
@@ -36,7 +36,7 @@
     </div>
     <div>
       <span class="title-container">{{ r.title }}</span>
-      <!-- <a (click)="openModal(r)">Source</a> -->
+      <a (click)="openModal(r)">Source</a>
        <!-- <app-report-modal [report]="r"></app-report-modal> -->
     </div>
     <div class="image-container">
@@ -62,9 +62,9 @@
           <p>Status: {{ clickedReport?.status }}</p>
         </div>
       </div>
-      <!-- <div class="modal-footer" *ngIf='clickedReport?.authorization == true'>
+      <div class="modal-footer" *ngIf='clickedReport?.authorization == true'>
           <button  type="button" class="btn btn-primary" [routerLink]="'reports/' + clickedReport?._id + '/edit'">Edit report</button>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>

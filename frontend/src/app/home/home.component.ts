@@ -17,9 +17,14 @@ import { ReportModalComponent } from "../report-modal/report-modal.component";
     ReportModalComponent
 ]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+  
   constructor(private router: Router) {
 
+  }
+
+  ngOnInit(): void {
+    console.log('Home component is rendered')
   }
 
   onClick() {

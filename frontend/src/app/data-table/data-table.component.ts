@@ -3,6 +3,8 @@ import { ReportService } from './../report.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
+
 import { LocationService } from '../location.service';
 import { RouterModule } from '@angular/router';
 import { Report } from '../report'
@@ -39,7 +41,7 @@ export class DataTableComponent implements OnInit {
   clickedReport: any
   marker: any
 
-  constructor(private rs:ReportService, private ls: LocationService) {
+  constructor(private rs:ReportService, private ls: LocationService, private router: Router) {
     this.reports$ = of([])
   }
 
@@ -53,7 +55,7 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.reports$ = this.rs.getReports()
-    console.log(this.map)
+    console.log('data-table initialized')
   }
 
   onStatusChange(id: any) {
@@ -108,5 +110,9 @@ export class DataTableComponent implements OnInit {
     if (modalElement) {
       modalElement.style.display = 'none'
     }
+  }
+
+  onEditClicked(id: any) {
+    this.router.navigate([`home/reports/${id}/edit`])
   }
 }

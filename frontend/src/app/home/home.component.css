@@ -13,5 +13,10 @@
     flex-direction: row
 }
 
+#map {
+    height: 100%;
+    width: 75vw; 
+}
+
 
 
