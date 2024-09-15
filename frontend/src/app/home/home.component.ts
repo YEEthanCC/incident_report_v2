@@ -1,3 +1,4 @@
+import { MapService } from './../map.service';
 import { Component, OnInit } from '@angular/core';
 import { MapComponent } from '../map/map.component';
 import { Router } from '@angular/router';
@@ -18,12 +19,15 @@ import { ReportModalComponent } from "../report-modal/report-modal.component";
 ]
 })
 export class HomeComponent implements OnInit{
+  map: any
   
-  constructor(private router: Router) {
+  constructor(private ms: MapService, private router: Router) {
 
   }
 
   ngOnInit(): void {
+    this.map = this.ms.getMap()
+    console.log('map received: ', this.map)
     console.log('Home component is rendered')
   }
 

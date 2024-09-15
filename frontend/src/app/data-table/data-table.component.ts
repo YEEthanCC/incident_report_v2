@@ -1,3 +1,4 @@
+
 import { ReportComponent } from './../report/report.component';
 import { ReportService } from './../report.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
@@ -15,6 +16,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 
 import { ReportModalComponent } from "../report-modal/report-modal.component";
+import { MapService } from '../map.service';
 
 
 @Component({
@@ -34,14 +36,10 @@ import { ReportModalComponent } from "../report-modal/report-modal.component";
 })
 export class DataTableComponent implements OnInit {
   reports$: Observable<any[]>
-  @Input() map:any
-  @Input() markers: L.Marker[] = [] 
-  // @ViewChild(ReportModalComponent)
-  // reportModalComponenet: ReportModalComponent
   clickedReport: any
   marker: any
 
-  constructor(private rs:ReportService, private ls: LocationService, private router: Router) {
+  constructor(private rs:ReportService, private ls: LocationService, private ms: MapService, private router: Router) {
     this.reports$ = of([])
   }
 
@@ -77,23 +75,7 @@ export class DataTableComponent implements OnInit {
   }
 
   onReportClick(location: any) {
-    var zoom = 15
-    this.map.flyTo(location.coordinates, zoom)
-    const redIcon = new L.Icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    });
-    if(this.marker) {
-      this.map.removeLayer(this.marker)
-      L.marker([this.marker.getLatLng().lat, this.marker.getLatLng().lng]).addTo(this.map) 
-    }
-    this.marker = this.markers.find(marker => marker.getLatLng().lat === location.coordinates[0] && marker.getLatLng().lng === location.coordinates[1])
-    this.map.removeLayer(this.marker) 
-    this.marker = L.marker(location.coordinates, {icon: redIcon}).addTo(this.map)
+    this.ms.zoomIn(location.coordinates)
   }
 
   openModal(report: any) {
