@@ -45,7 +45,7 @@ export class EditReportComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.map = L.map('map').setView([49.2, -123], 11) 
+    this.map = L.map('edit-map').setView([49.2, -123], 11) 
     // this.locations$ = this.ls.getLocations() 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
