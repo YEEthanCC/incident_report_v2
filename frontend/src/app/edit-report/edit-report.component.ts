@@ -4,7 +4,6 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LocationService } from '../location.service';
 import { ReportService } from '../report.service';
-import { MapComponent } from '../map/map.component';
 
 import * as L from 'leaflet';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -18,7 +17,6 @@ import { Observable } from 'rxjs';
     CommonModule, 
     FormsModule, 
     ReactiveFormsModule, 
-    MapComponent, 
     NavbarComponent
   ],
   templateUrl: './edit-report.component.html',

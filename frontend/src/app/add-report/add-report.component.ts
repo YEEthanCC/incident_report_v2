@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { MapComponent } from '../map/map.component';
 
 import { CommonModule } from '@angular/common';
 
@@ -36,7 +35,6 @@ import { NavbarComponent } from "../navbar/navbar.component";
   styleUrl: './add-report.component.css', 
   standalone: true, 
   imports: [
-    MapComponent,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
