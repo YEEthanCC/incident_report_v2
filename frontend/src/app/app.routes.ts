@@ -10,6 +10,7 @@ import { EditReportComponent } from './edit-report/edit-report.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
+import { ProfileComponent } from './profile/profile.component';
 
 
 export const routes: Routes = [
@@ -17,8 +18,9 @@ export const routes: Routes = [
   { path: 'home/reports/:id', component: ReportComponent }, 
   { path: 'add-report', component: AddReportComponent, canActivate: [AuthGuard] },
   { path: 'add-location', component: AddLocationComponent }, 
-  { path: 'home/reports/:id/edit', component: EditReportComponent },
+  { path: 'home/reports/:id/edit', component: EditReportComponent,  canActivate: [AuthGuard]},
   { path: 'signup', component: SignupComponent }, 
   { path: 'login', component: LoginComponent }, 
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, 
   { path: '', redirectTo: 'home', pathMatch: 'full'}
 ];

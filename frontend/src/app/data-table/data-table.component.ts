@@ -3,11 +3,12 @@ import { ReportService } from './../report.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { LocationService } from '../location.service';
 import { RouterModule } from '@angular/router';
-import { Report } from '../report'
+
 import * as L from 'leaflet';
 
 import {MatIconModule} from '@angular/material/icon';
@@ -36,8 +37,7 @@ export class DataTableComponent implements OnInit {
   reports$: Observable<any[]>
   @Input() map:any
   @Input() markers: L.Marker[] = [] 
-  // @ViewChild(ReportModalComponent)
-  // reportModalComponenet: ReportModalComponent
+  @Input() filterKey: any
   clickedReport: any
   marker: any
 
@@ -54,7 +54,15 @@ export class DataTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.reports$ = this.rs.getReports()
+    if(this.filterKey === 'authorization') {
+      this.reports$ = this.rs.getReports().pipe(
+        map(reports => reports.filter(report => {
+
+          return report.authorization === true
+        })))
+    } else {
+      this.reports$ = this.rs.getReports()
+    }
     console.log('data-table initialized')
   }
 

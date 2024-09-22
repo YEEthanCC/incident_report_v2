@@ -11,8 +11,8 @@ form {
     height: 100%;
     width: 25vw; 
     margin-left: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    padding-top: 1em;
+    /* margin-bottom: 1em; */
     margin-right: 2em;
 }
 

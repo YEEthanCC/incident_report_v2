@@ -1,8 +1,38 @@
 <app-navbar></app-navbar>
 <div class="add-report-container">
   <div id="map" ></div>
-  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" style="max-width: 40%;">
-    <div class="form-group">
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <fieldset class="d-grid gap-2 col-12">
+      <input
+        type="text"
+        formControlName="title"
+        placeholder="Title"
+        class="form-control">
+      <textarea 
+        type="text"
+        formControlName="info"
+        rows="15" 
+        placeholder="body text (optional)"
+        id="info" 
+        class="form-control"
+      ></textarea>
+      <input
+        type="text"
+        placeholder="link to image"
+        formControlName="imageUrl"
+        class="form-control"
+        id="image"
+      />
+      <select formControlName="location" (change)="onLocationChange($event)" >
+        <option value="" selected disabled hidden> -- select a location -- </option>
+        <option *ngFor="let p of locations" [ngValue]="p">{{ p.name }}</option>
+        <option>Add new location</option>
+      </select>
+      <button
+      class="btn btn-outline-primary"
+      [disabled]="!form.valid">Submit</button>
+    </fieldset>
+    <!-- <div class="form-group">
       <input
         type="text" 
         placeholder="Title"
@@ -35,9 +65,6 @@
         <option *ngFor="let p of locations" [ngValue]="p">{{ p.name }}</option>
         <option>Add new location</option>
       </select>
-    </div>
-    <button
-     class="btn btn-outline-primary"
-     [disabled]="!form.valid">Submit</button>
+    </div> -->
   </form>
 </div>

@@ -7,25 +7,27 @@ import { Observable } from 'rxjs';
 })
 export class ReportService {
 
+  private apiUrl = 'http://localhost:4000'
+
   constructor(private http: HttpClient) { }
 
   getReports(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:4000/api/reports')
+    return this.http.get<any[]>(`${this.apiUrl}/api/reports`)
   }
 
   getReport(id: any) {
-    return this.http.get('http://localhost:4000/api/reports/' + id)
+    return this.http.get(`${this.apiUrl}/api/reports` + id)
   }
 
   createReport(report: any) {
-    return this.http.post('http://localhost:4000/api/reports/', report)
+    return this.http.post(`${this.apiUrl}/api/reports`, report)
   }
 
   deleteReport(id: any) {
-    return this.http.delete('http://localhost:4000/api/reports/' + id)
+    return this.http.delete(`${this.apiUrl}/api/reports` + id)
   }
 
   updateReport(id: any, report: any) {
-    return this.http.patch('http://localhost:4000/api/reports/' + id, report)
+    return this.http.patch(`${this.apiUrl}/api/reports` + id, report)
   }
 }

@@ -1,0 +1,5 @@
+<app-navbar></app-navbar>
+<div class="profile-container">
+  <app-map #mapComponent [filterKey]="'authorization'"></app-map>
+  <app-data-table class="dataTable" [map]="mapComponent.map" [markers]="mapComponent.markers" [filterKey]="'authorization'"></app-data-table>
+</div>

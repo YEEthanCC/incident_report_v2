@@ -1,28 +1,38 @@
-.form-group {
+/* .form-group {
     width: 25vw;
+
+    padding: 1em;
+} */
+
+form {
+    height: 100%;
+    width: 25vw; 
     margin-left: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    padding-top: 1em;
+    /* margin-bottom: 1em; */
     margin-right: 2em;
 }
+
 
 select {
     width: 100%;
 }
 
 .add-report-container {
-    width: 100vw; 
-    height: 90vh;
+    width: 100%; 
+    height: 94.7vh;
+    padding: 0%;
+    margin: 0%;
     display: flex;
-    flex-direction: row; 
+    flex-direction: row
 }
 
 #map {
-    height: 90vh;
-    width: 75vw; 
+    height: 100%;
+    width: 75vw;  
 }
 
-.btn-outline-primary {
-    width: 25vw;
-    margin: 1em;
-}
+/* .btn-outline-primary {
+    width: 100%;
+    padding: 1em;
+} */

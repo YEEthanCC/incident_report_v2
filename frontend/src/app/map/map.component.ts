@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { ViewChild } from '@angular/core';
-import { ElementRef } from '@angular/core';
+import { ElementRef, Input } from '@angular/core';
 
 import { icon, Marker } from 'leaflet';
 import { LocationService } from '../location.service';
@@ -38,6 +38,7 @@ Marker.prototype.options.icon = iconDefault;
 })
 export class MapComponent implements OnInit, AfterViewInit{
   @ViewChild('mapContainer') private mapContainer?: ElementRef;
+  @Input() filterKey: any
   map: any 
   reports$: Observable<any[]> 
   location$: Observable<any[]>
@@ -61,14 +62,25 @@ export class MapComponent implements OnInit, AfterViewInit{
     console.log('map container: ', this.mapContainer)
     this.map = L.map('map').setView([49.2, -123], 11) 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
-    this.rs.getReports().subscribe((reports: any[]) => {
-      reports.forEach((report: any) => {
-        if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1])) {
-          this.markers = [L.marker(report.location.coordinates), ...this.markers]
-        }
+    if(this.filterKey == 'authorization') {
+      this.rs.getReports().subscribe((reports: any[]) => {
+        reports.forEach((report: any) => {
+          if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1]) && report.authorization == true) {
+            this.markers = [L.marker(report.location.coordinates), ...this.markers]
+          }
+        })
+        this.markers.forEach(marker => marker.addTo(this.map));
       })
-      this.markers.forEach(marker => marker.addTo(this.map));
-    })
+    } else {
+      this.rs.getReports().subscribe((reports: any[]) => {
+        reports.forEach((report: any) => {
+          if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1])) {
+            this.markers = [L.marker(report.location.coordinates), ...this.markers]
+          }
+        })
+        this.markers.forEach(marker => marker.addTo(this.map));
+      })
+    }
     console.log('map does not exist, is initialized')
 
 
