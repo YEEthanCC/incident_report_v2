@@ -27,4 +27,8 @@ export class NavbarComponent {
   navigateToProfile() {
     this.router.navigate(["profile"])
   }
+
+  logout() {
+    this.as.logout()
+  }
 }

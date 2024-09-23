@@ -52,15 +52,32 @@ export class MapComponent implements OnInit, AfterViewInit{
   };
 
   ngOnInit(): void {
-    console.log(this.mapContainer)
-    console.log('ngonit called')
-    if (this.map) {
-      console.log('map is already initialized')
+    // this.map = L.map('map').setView([49.2, -123], 11) 
+    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    // if(this.filterKey == 'authorization') {
+    //   this.rs.getReports().subscribe((reports: any[]) => {
+    //     reports.forEach((report: any) => {
+    //       if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1]) && report.authorization == true) {
+    //         this.markers = [L.marker(report.location.coordinates), ...this.markers]
+    //       }
+    //     })
+    //     this.markers.forEach(marker => marker.addTo(this.map));
+    //   })
+    // } else {
+    //   this.rs.getReports().subscribe((reports: any[]) => {
+    //     reports.forEach((report: any) => {
+    //       if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1])) {
+    //         this.markers = [L.marker(report.location.coordinates), ...this.markers]
+    //       }
+    //     })
+    //     this.markers.forEach(marker => marker.addTo(this.map));
+    //   })
+    // }
+    // console.log('map does not exist, is initialized')
+  }
 
-      return;
-    }
-    console.log('map container: ', this.mapContainer)
-    this.map = L.map('map').setView([49.2, -123], 11) 
+  ngAfterViewInit() {
+    this.map = L.map(this.mapContainer?.nativeElement).setView([49.2, -123], 11) 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
     if(this.filterKey == 'authorization') {
       this.rs.getReports().subscribe((reports: any[]) => {
@@ -82,28 +99,5 @@ export class MapComponent implements OnInit, AfterViewInit{
       })
     }
     console.log('map does not exist, is initialized')
-
-
-    // this.ls.getLocations().subscribe((locations: any[]) => {
-    //   locations.forEach((location: any) => {
-    //     console.log(location.coordinates)
-    //     this.markers = [L.marker(location.coordinates), ...this.markers]
-    //   });
-    //   this.markers.forEach(marker => marker.addTo(this.map));
-    // })
-  }
-
-  ngAfterViewInit() {
-    // console.log('map container: ', this.mapContainer)
-    // this.map = L.map(this.mapContainer?.nativeElement).setView([49.2, -123], 11) 
-    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
-    // this.rs.getReports().subscribe((reports: any[]) => {
-    //   reports.forEach((report: any) => {
-    //     if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1])) {
-    //       this.markers = [L.marker(report.location.coordinates), ...this.markers]
-    //     }
-    //   })
-    //   this.markers.forEach(marker => marker.addTo(this.map));
-    // })
   }
 }

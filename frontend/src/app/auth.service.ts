@@ -18,6 +18,11 @@ export class AuthService {
     return this.http.post('http://localhost:4000/api/users/login/', {email, password})
   }
 
+  logout() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('email')
+  }
+
   isLoggedIn() {
     let token = localStorage.getItem('token')
     if(token) {

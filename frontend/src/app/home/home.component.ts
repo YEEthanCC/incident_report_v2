@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MapComponent } from '../map/map.component';
 import { Router } from '@angular/router';
 import { DataTableComponent } from '../data-table/data-table.component';
@@ -13,6 +14,7 @@ import { ElementRef } from '@angular/core';
   styleUrl: './home.component.css', 
   standalone: true,
   imports: [
+    CommonModule,
     MapComponent,
     DataTableComponent,
     NavbarComponent,

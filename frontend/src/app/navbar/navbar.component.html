@@ -14,17 +14,18 @@
     </a>
   </div>
   <ng-template #loggedIn>
-    <a class="nav-item" href="profile">
+    <a class="nav-item" [matMenuTriggerFor]="profileMenu">
       <mat-icon>account_circle</mat-icon>
       Account
     </a>
-    <!-- <mat-menu #profileMenu>
-      <button mat-menu-item>
+    <mat-menu #profileMenu>
+      <button mat-menu-item (click)="navigateToProfile()">
         <span>View My Post</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
         <span>Logout</span>
       </button>
-    </mat-menu> -->
+    </mat-menu>
   </ng-template>
 </nav>
