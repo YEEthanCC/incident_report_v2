@@ -1,6 +1,6 @@
 
-<app-navbar></app-navbar>
+<app-navbar [reports$]="reportTableComponenet.reports$"></app-navbar>
 <div class="home-container">
   <app-map id="homeMap" #mapComponent></app-map>
-  <app-data-table class="dataTable" [map]="mapComponent.map" [markers]="mapComponent.markers" [filterKey]="'none'"></app-data-table>
+  <app-data-table class="dataTable" #reportTableComponenet [map]="mapComponent.map" [markers]="mapComponent.markers" [filterKey]="'none'"></app-data-table>
 </div>

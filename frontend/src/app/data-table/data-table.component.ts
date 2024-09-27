@@ -1,6 +1,6 @@
 import { ReportComponent } from './../report/report.component';
 import { ReportService } from './../report.service';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -33,7 +33,7 @@ import { ReportModalComponent } from "../report-modal/report-modal.component";
     MatIconModule
   ]
 })
-export class DataTableComponent implements OnInit {
+export class DataTableComponent implements OnInit, AfterViewInit {
   reports$: Observable<any[]>
   @Input() map:any
   @Input() markers: L.Marker[] = [] 
@@ -51,6 +51,19 @@ export class DataTableComponent implements OnInit {
       console.log(res)
       this.reports$ = this.rs.getReports()
     })
+  }
+
+  ngAfterViewInit() {
+    // if(this.filterKey === 'authorization') {
+    //   this.reports$ = this.rs.getReports().pipe(
+    //     map(reports => reports.filter(report => {
+
+    //       return report.authorization === true
+    //     })))
+    // } else {
+    //   this.reports$ = this.rs.getReports()
+    // }
+    // console.log('data-table initialized')
   }
 
   ngOnInit(): void {

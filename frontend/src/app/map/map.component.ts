@@ -52,32 +52,7 @@ export class MapComponent implements OnInit, AfterViewInit{
   };
 
   ngOnInit(): void {
-    // this.map = L.map('map').setView([49.2, -123], 11) 
-    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
-    // if(this.filterKey == 'authorization') {
-    //   this.rs.getReports().subscribe((reports: any[]) => {
-    //     reports.forEach((report: any) => {
-    //       if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1]) && report.authorization == true) {
-    //         this.markers = [L.marker(report.location.coordinates), ...this.markers]
-    //       }
-    //     })
-    //     this.markers.forEach(marker => marker.addTo(this.map));
-    //   })
-    // } else {
-    //   this.rs.getReports().subscribe((reports: any[]) => {
-    //     reports.forEach((report: any) => {
-    //       if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1])) {
-    //         this.markers = [L.marker(report.location.coordinates), ...this.markers]
-    //       }
-    //     })
-    //     this.markers.forEach(marker => marker.addTo(this.map));
-    //   })
-    // }
-    // console.log('map does not exist, is initialized')
-  }
-
-  ngAfterViewInit() {
-    this.map = L.map(this.mapContainer?.nativeElement).setView([49.2, -123], 11) 
+    this.map = L.map('map').setView([49.2, -123], 11) 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
     if(this.filterKey == 'authorization') {
       this.rs.getReports().subscribe((reports: any[]) => {
@@ -99,5 +74,30 @@ export class MapComponent implements OnInit, AfterViewInit{
       })
     }
     console.log('map does not exist, is initialized')
+  }
+
+  ngAfterViewInit() {
+    // this.map = L.map(this.mapContainer?.nativeElement).setView([49.2, -123], 11) 
+    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    // if(this.filterKey == 'authorization') {
+    //   this.rs.getReports().subscribe((reports: any[]) => {
+    //     reports.forEach((report: any) => {
+    //       if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1]) && report.authorization == true) {
+    //         this.markers = [L.marker(report.location.coordinates), ...this.markers]
+    //       }
+    //     })
+    //     this.markers.forEach(marker => marker.addTo(this.map));
+    //   })
+    // } else {
+    //   this.rs.getReports().subscribe((reports: any[]) => {
+    //     reports.forEach((report: any) => {
+    //       if(!this.markers.find(marker => marker.getLatLng().lat === report.location.coordinates[0] && marker.getLatLng().lng === report.location.coordinates[1])) {
+    //         this.markers = [L.marker(report.location.coordinates), ...this.markers]
+    //       }
+    //     })
+    //     this.markers.forEach(marker => marker.addTo(this.map));
+    //   })
+    // }
+    // console.log('map does not exist, is initialized')
   }
 }

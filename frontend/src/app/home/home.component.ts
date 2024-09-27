@@ -7,6 +7,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ReportModalComponent } from "../report-modal/report-modal.component";
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,9 @@ import { ElementRef } from '@angular/core';
 ]
 })
 export class HomeComponent implements OnInit{
-  @ViewChild('mapComponent') private mapContainer?: ElementRef;
+  @ViewChild('mapComponent') mapContainer?: ElementRef;
+  @ViewChild('reportTableComponenet ') reportsContainer: any
+  reports$: any
 
   constructor(private router: Router) {
 
