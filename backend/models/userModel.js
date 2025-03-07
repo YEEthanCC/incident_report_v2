@@ -1,8 +1,14 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
 
-const Schema = mongoose.Schema
+// const Schema = mongoose.Schema
+
+const db = require('../database/db');
+
+exports.signup = (res) => {
+    
+}
 
 const userSchema = new Schema({
     email: {
@@ -58,3 +64,4 @@ userSchema.statics.login = async function (email, password) {
 }
 
 module.exports = mongoose.model('User', userSchema)
+
